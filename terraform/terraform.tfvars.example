@@ -1,0 +1,34 @@
+# GCP Project Configuration
+# Copy this file to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored to protect sensitive data
+
+# Your GCP Project ID (required)
+project_id = "your-gcp-project-id"
+
+# Primary region for resources
+region = "us-west1"
+
+# Application name (used for naming resources)
+app_name = "aethermancer-tools"
+
+# Environment (dev, staging, prod)
+environment = "prod"
+
+# Artifact Registry Configuration
+artifact_registry_location = "us-west1"
+
+# Cloud Run Configuration
+cloud_run_location      = "us-west1"
+cloud_run_min_instances = 0  # 0 for cost optimization (scales to zero)
+cloud_run_max_instances = 10
+cloud_run_cpu           = "1000m"  # 1 vCPU
+cloud_run_memory        = "512Mi"
+cloud_run_timeout       = 300  # 5 minutes
+cloud_run_concurrency   = 80
+
+# Custom Domain (optional)
+# Leave empty if not using a custom domain
+custom_domain = ""
+
+# Docker Image Tag
+docker_image_tag = "latest"
