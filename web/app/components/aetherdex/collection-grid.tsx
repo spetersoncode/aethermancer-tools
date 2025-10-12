@@ -22,7 +22,7 @@ export function CollectionGrid({
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <p className="text-muted-foreground text-lg">No monsters found</p>
         <p className="text-muted-foreground text-sm mt-2">
-          Try adjusting your filter
+          No monster data available
         </p>
       </div>
     );

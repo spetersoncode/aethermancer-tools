@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/aetherdex";
 import { Button } from "~/components/ui/button";
 import { CollectionGrid } from "~/components/aetherdex/collection-grid";
 import { CollectionStats } from "~/components/aetherdex/collection-stats";
-import { CollectionFilters, type FilterMode } from "~/components/aetherdex/collection-filters";
+import { CollectionActions } from "~/components/aetherdex/collection-actions";
 import { monsters, type Monster } from "~/data/monsters";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { ArrowLeft } from "lucide-react";
@@ -30,9 +30,6 @@ export default function Aetherdex() {
     "aetherdex-collection",
     []
   );
-
-  // Filter state
-  const [filterMode, setFilterMode] = useState<FilterMode>("all");
 
   // Convert array to Set for faster lookups
   const collectedSet = useMemo(
@@ -69,27 +66,6 @@ export default function Aetherdex() {
     return pairs.sort((a, b) => a.base.name.localeCompare(b.base.name));
   }, []);
 
-  // Filter pairs based on filter mode
-  const filteredPairs = useMemo(() => {
-    return monsterPairs.filter((pair) => {
-      // Collection filter
-      const baseCollected = collectedSet.has(pair.base.id);
-      const shiftedCollected = pair.shifted
-        ? collectedSet.has(pair.shifted.id)
-        : false;
-      const anyCollected = baseCollected || shiftedCollected;
-      const allCollected = baseCollected && (!pair.shifted || shiftedCollected);
-
-      if (filterMode === "collected" && !anyCollected) {
-        return false;
-      }
-      if (filterMode === "uncollected" && allCollected) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [monsterPairs, filterMode, collectedSet]);
 
   // Toggle collected state
   const handleToggleCollected = (monsterId: string) => {
@@ -100,6 +76,11 @@ export default function Aetherdex() {
         return [...prev, monsterId];
       }
     });
+  };
+
+  // Load collection from file
+  const handleLoadCollection = (ids: string[]) => {
+    setCollectedIds(ids);
   };
 
   // Calculate stats
@@ -162,19 +143,19 @@ export default function Aetherdex() {
       {/* Main Content - Split Layout */}
       <div className="flex-1 container mx-auto px-4 md:px-6 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-6 items-start">
-          {/* Left Panel - Filters and Stats (Sticky on desktop) */}
+          {/* Left Panel - Stats and Actions (Sticky on desktop) */}
           <aside className="lg:sticky lg:top-[88px] space-y-3">
             <CollectionStats {...stats} />
-            <CollectionFilters
-              filterMode={filterMode}
-              onFilterModeChange={setFilterMode}
+            <CollectionActions
+              collectedIds={collectedIds}
+              onLoad={handleLoadCollection}
             />
           </aside>
 
           {/* Right Panel - Monster Collection Grid */}
           <main className="min-w-0">
             <CollectionGrid
-              monsterPairs={filteredPairs}
+              monsterPairs={monsterPairs}
               collectedIds={collectedSet}
               onToggleCollected={handleToggleCollected}
             />
