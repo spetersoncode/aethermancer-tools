@@ -1,13 +1,10 @@
 import { useMemo } from "react";
-import { Link } from "react-router";
 import type { Route } from "./+types/aetherdex";
-import { Button } from "~/components/ui/button";
 import { CollectionGrid } from "~/components/aetherdex/collection-grid";
 import { CollectionStats } from "~/components/aetherdex/collection-stats";
 import { CollectionActions } from "~/components/aetherdex/collection-actions";
 import { monsters, type Monster } from "~/data/monsters";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import { ArrowLeft } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -118,49 +115,36 @@ export default function Aetherdex() {
   }, [collectedSet]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 md:px-6">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" asChild>
-              <Link to="/">
-                <ArrowLeft className="h-5 w-5" />
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Aetherdex
-              </h1>
-              <p className="text-muted-foreground text-xs md:text-sm">
-                Track your monster collection
-              </p>
-            </div>
-          </div>
-        </div>
+    <div className="container mx-auto px-4 md:px-6 py-6">
+      {/* Page Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          Aetherdex
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Track your monster collection
+        </p>
       </div>
 
       {/* Main Content - Split Layout */}
-      <div className="flex-1 container mx-auto px-4 md:px-6 py-4">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-6 items-start">
-          {/* Left Panel - Stats and Actions (Sticky on desktop) */}
-          <aside className="lg:sticky lg:top-[88px] space-y-3">
-            <CollectionStats {...stats} />
-            <CollectionActions
-              collectedIds={collectedIds}
-              onLoad={handleLoadCollection}
-            />
-          </aside>
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-6 items-start">
+        {/* Left Panel - Stats and Actions (Sticky on desktop) */}
+        <aside className="lg:sticky lg:top-[88px] space-y-3">
+          <CollectionStats {...stats} />
+          <CollectionActions
+            collectedIds={collectedIds}
+            onLoad={handleLoadCollection}
+          />
+        </aside>
 
-          {/* Right Panel - Monster Collection Grid */}
-          <main className="min-w-0">
-            <CollectionGrid
-              monsterPairs={monsterPairs}
-              collectedIds={collectedSet}
-              onToggleCollected={handleToggleCollected}
-            />
-          </main>
-        </div>
+        {/* Right Panel - Monster Collection Grid */}
+        <main className="min-w-0">
+          <CollectionGrid
+            monsterPairs={monsterPairs}
+            collectedIds={collectedSet}
+            onToggleCollected={handleToggleCollected}
+          />
+        </main>
       </div>
     </div>
   );
