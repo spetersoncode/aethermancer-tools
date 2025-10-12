@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Home, Library, Users } from "lucide-react";
 import { cn } from "~/lib/utils";
+import { ThemeToggle } from "~/components/theme-toggle";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -32,39 +33,45 @@ export function AppLayout({ children }: AppLayoutProps) {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
-              {navLinks.map((link) => (
-                <Button
-                  key={link.to}
-                  variant={isActive(link.to) ? "secondary" : "ghost"}
-                  size="sm"
-                  asChild
-                >
-                  <Link to={link.to} className="flex items-center gap-2">
-                    <link.icon className="h-4 w-4" />
-                    <span>{link.label}</span>
-                  </Link>
-                </Button>
-              ))}
-            </nav>
+            <div className="hidden md:flex items-center gap-1">
+              <nav className="flex items-center space-x-1">
+                {navLinks.map((link) => (
+                  <Button
+                    key={link.to}
+                    variant={isActive(link.to) ? "secondary" : "ghost"}
+                    size="sm"
+                    asChild
+                  >
+                    <Link to={link.to} className="flex items-center gap-2">
+                      <link.icon className="h-4 w-4" />
+                      <span>{link.label}</span>
+                    </Link>
+                  </Button>
+                ))}
+              </nav>
+              <ThemeToggle />
+            </div>
 
             {/* Mobile Navigation */}
-            <nav className="flex md:hidden items-center space-x-1">
-              {navLinks.map((link) => (
-                <Button
-                  key={link.to}
-                  variant={isActive(link.to) ? "secondary" : "ghost"}
-                  size="icon"
-                  asChild
-                  className="h-9 w-9"
-                >
-                  <Link to={link.to}>
-                    <link.icon className="h-4 w-4" />
-                    <span className="sr-only">{link.label}</span>
-                  </Link>
-                </Button>
-              ))}
-            </nav>
+            <div className="flex md:hidden items-center gap-1">
+              <nav className="flex items-center space-x-1">
+                {navLinks.map((link) => (
+                  <Button
+                    key={link.to}
+                    variant={isActive(link.to) ? "secondary" : "ghost"}
+                    size="icon"
+                    asChild
+                    className="h-9 w-9"
+                  >
+                    <Link to={link.to}>
+                      <link.icon className="h-4 w-4" />
+                      <span className="sr-only">{link.label}</span>
+                    </Link>
+                  </Button>
+                ))}
+              </nav>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
