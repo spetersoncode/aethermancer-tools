@@ -1,9 +1,9 @@
-import { Card, CardContent } from "../ui/card";
-import { ElementBadge } from "../team-builder/element-badge";
-import { TypeBadge } from "../team-builder/type-badge";
-import { type Monster } from "~/data/monsters";
-import { cn } from "~/lib/utils";
-import { Check } from "lucide-react";
+import { Card, CardContent } from '../ui/card';
+import { ElementBadge } from '../team-builder/element-badge';
+import { TypeBadge } from '../team-builder/type-badge';
+import { type Monster } from '~/data/monsters';
+import { cn } from '~/lib/utils';
+import { Check } from 'lucide-react';
 
 interface CollectionCardProps {
   baseMonster: Monster;
@@ -26,11 +26,11 @@ function MonsterDisplay({
   return (
     <div
       className={cn(
-        "relative p-3 rounded-lg border-2 transition-all cursor-pointer",
-        "hover:bg-accent/50",
+        'relative p-3 rounded-lg border-2 transition-all cursor-pointer',
+        'hover:bg-accent/50',
         isCollected
-          ? "bg-primary/10 border-primary/50 shadow-md"
-          : "bg-card border-border"
+          ? 'bg-primary/10 border-primary/50 shadow-md'
+          : 'bg-card border-border'
       )}
       onClick={onToggle}
     >
@@ -48,8 +48,8 @@ function MonsterDisplay({
             src={monster.image}
             alt={monster.name}
             className={cn(
-              "h-20 w-20 object-contain transition-opacity",
-              !isCollected && "opacity-40 grayscale"
+              'h-20 w-20 object-contain transition-opacity',
+              !isCollected && 'opacity-40 grayscale'
             )}
           />
         </div>
@@ -64,12 +64,18 @@ function MonsterDisplay({
 
       {/* Monster Info */}
       <div className="space-y-1.5 mt-2">
-        <h3 className="font-semibold text-sm text-center">{monster.name.replace(" (Shifted)", "")}</h3>
+        <h3 className="font-semibold text-sm text-center">
+          {monster.name.replace(' (Shifted)', '')}
+        </h3>
 
         {monster.elements.length > 0 && (
           <div className="flex flex-wrap gap-1 justify-center">
             {monster.elements.map((element) => (
-              <ElementBadge key={element} element={element} className="text-xs" />
+              <ElementBadge
+                key={element}
+                element={element}
+                className="text-xs"
+              />
             ))}
           </div>
         )}
@@ -116,7 +122,9 @@ export function CollectionCard({
             />
           ) : (
             <div className="flex items-center justify-center p-3 rounded-lg border-2 border-dashed border-border bg-muted/20">
-              <span className="text-xs text-muted-foreground">No Shifted Variant</span>
+              <span className="text-xs text-muted-foreground">
+                No Shifted Variant
+              </span>
             </div>
           )}
         </div>

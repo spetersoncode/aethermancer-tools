@@ -1,17 +1,17 @@
-import { useState, useMemo } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { MonsterCard } from "./monster-card";
-import { ElementBadge } from "./element-badge";
-import { TypeBadge } from "./type-badge";
+import { useState, useMemo } from 'react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { MonsterCard } from './monster-card';
+import { ElementBadge } from './element-badge';
+import { TypeBadge } from './type-badge';
 import {
   type Monster,
   type Element,
   type MonsterType,
   getAllElements,
   getAllTypes,
-} from "~/data/monsters";
-import { Search, X } from "lucide-react";
+} from '~/data/monsters';
+import { Search, X } from 'lucide-react';
 
 interface MonsterGridProps {
   monsters: Monster[];
@@ -24,7 +24,7 @@ export function MonsterGrid({
   selectedMonsters,
   onMonsterSelect,
 }: MonsterGridProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [elementFilter, setElementFilter] = useState<Element | null>(null);
   const [typeFilter, setTypeFilter] = useState<MonsterType | null>(null);
 
@@ -53,7 +53,7 @@ export function MonsterGrid({
   }, [monsters, searchQuery, elementFilter, typeFilter]);
 
   const clearFilters = () => {
-    setSearchQuery("");
+    setSearchQuery('');
     setElementFilter(null);
     setTypeFilter(null);
   };
@@ -66,7 +66,8 @@ export function MonsterGrid({
       <div>
         <h2 className="text-lg font-bold mb-1">Available Monsters</h2>
         <p className="text-xs text-muted-foreground">
-          {filteredMonsters.length} monster{filteredMonsters.length !== 1 ? "s" : ""} available
+          {filteredMonsters.length} monster
+          {filteredMonsters.length !== 1 ? 's' : ''} available
         </p>
       </div>
 
@@ -106,8 +107,8 @@ export function MonsterGrid({
                   element={element}
                   className={
                     elementFilter === element
-                      ? "shadow-lg scale-110 brightness-110"
-                      : "opacity-80 hover:opacity-100"
+                      ? 'shadow-lg scale-110 brightness-110'
+                      : 'opacity-80 hover:opacity-100'
                   }
                 />
               </button>
@@ -136,8 +137,8 @@ export function MonsterGrid({
                   type={type}
                   className={
                     typeFilter === type
-                      ? "bg-primary text-primary-foreground shadow-lg scale-110"
-                      : "opacity-80 hover:opacity-100"
+                      ? 'bg-primary text-primary-foreground shadow-lg scale-110'
+                      : 'opacity-80 hover:opacity-100'
                   }
                 />
               </button>
@@ -148,7 +149,12 @@ export function MonsterGrid({
         {/* Clear Filters Button */}
         {hasActiveFilters && (
           <div className="pt-0.5">
-            <Button variant="outline" onClick={clearFilters} size="sm" className="w-full h-8">
+            <Button
+              variant="outline"
+              onClick={clearFilters}
+              size="sm"
+              className="w-full h-8"
+            >
               <X className="mr-2 h-3.5 w-3.5" />
               Clear All Filters
             </Button>

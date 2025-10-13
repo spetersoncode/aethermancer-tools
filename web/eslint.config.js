@@ -78,7 +78,8 @@ export default tseslint.config(
 
       // React Refresh rules (for Vite HMR)
       'react-refresh/only-export-components': ['warn', {
-        allowConstantExport: true
+        allowConstantExport: true,
+        allowExportNames: ['meta', 'loader', 'action', 'headers', 'links', 'handle', 'shouldRevalidate']
       }],
 
       // Accessibility rules
@@ -92,6 +93,14 @@ export default tseslint.config(
 
       // Prettier integration
       'prettier/prettier': 'error'
+    }
+  },
+
+  // UI components override - allow variant exports (shadcn/ui pattern)
+  {
+    files: ['**/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off'
     }
   },
 

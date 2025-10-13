@@ -1,11 +1,16 @@
-import type { Route } from "./+types/home";
-import { Link } from "react-router";
-import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import type { Route } from './+types/home';
+import { Link } from 'react-router';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Aethermancer Tools" },
-    { name: "description", content: "Tools for Aethermancer players" },
+    { title: 'Aethermancer Tools' },
+    { name: 'description', content: 'Tools for Aethermancer players' },
   ];
 }
 
@@ -36,8 +41,9 @@ export default function Home() {
             <CardHeader>
               <CardTitle>Aetherdex</CardTitle>
               <CardDescription>
-                Track your monster collection progress. Mark monsters as collected and
-                see completion stats for both base and shifted variants.
+                Track your monster collection progress. Mark monsters as
+                collected and see completion stats for both base and shifted
+                variants.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -55,8 +61,8 @@ export default function Home() {
             <CardHeader>
               <CardTitle>Team Builder</CardTitle>
               <CardDescription>
-                Create and optimize your perfect team of three monsters. Filter by elements
-                and types, and see real-time composition analysis.
+                Create and optimize your perfect team of three monsters. Filter
+                by elements and types, and see real-time composition analysis.
               </CardDescription>
             </CardHeader>
           </Card>

@@ -1,17 +1,17 @@
-import { useState } from "react";
-import type { Route } from "./+types/team-builder";
-import { Button } from "~/components/ui/button";
-import { MonsterGrid } from "~/components/team-builder/monster-grid";
-import { TeamSlots } from "~/components/team-builder/team-slots";
-import { TeamStats } from "~/components/team-builder/team-stats";
-import { monsters, type Monster } from "~/data/monsters";
+import { useState } from 'react';
+import type { Route } from './+types/team-builder';
+import { Button } from '~/components/ui/button';
+import { MonsterGrid } from '~/components/team-builder/monster-grid';
+import { TeamSlots } from '~/components/team-builder/team-slots';
+import { TeamStats } from '~/components/team-builder/team-stats';
+import { monsters, type Monster } from '~/data/monsters';
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Team Builder - Aethermancer" },
+    { title: 'Team Builder - Aethermancer' },
     {
-      name: "description",
-      content: "Build and optimize your Aethermancer monster team",
+      name: 'description',
+      content: 'Build and optimize your Aethermancer monster team',
     },
   ];
 }
@@ -19,7 +19,9 @@ export function meta({}: Route.MetaArgs) {
 export default function TeamBuilder() {
   const [team, setTeam] = useState<(Monster | null)[]>([null, null, null]);
 
-  const sortedMonsters = [...monsters].sort((a, b) => a.name.localeCompare(b.name));
+  const sortedMonsters = [...monsters].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
 
   const handleMonsterSelect = (monster: Monster) => {
     // Check if monster is already in team
@@ -71,7 +73,9 @@ export default function TeamBuilder() {
         <aside className="lg:sticky lg:top-[88px] space-y-3">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold">Your Team ({selectedMonsters.length}/3)</h2>
+              <h2 className="text-lg font-bold">
+                Your Team ({selectedMonsters.length}/3)
+              </h2>
               {selectedMonsters.length > 0 && (
                 <Button variant="outline" size="sm" onClick={handleClearTeam}>
                   Clear

@@ -1,9 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import { ElementBadge } from "./element-badge";
-import { TypeBadge } from "./type-badge";
-import { type Monster } from "~/data/monsters";
-import { X } from "lucide-react";
+import { Card, CardContent } from '../ui/card';
+import { Button } from '../ui/button';
+import { ElementBadge } from './element-badge';
+import { TypeBadge } from './type-badge';
+import { type Monster } from '~/data/monsters';
+import { X } from 'lucide-react';
 
 interface TeamSlotsProps {
   team: (Monster | null)[];
@@ -14,7 +14,10 @@ export function TeamSlots({ team, onRemove }: TeamSlotsProps) {
   return (
     <div className="space-y-2">
       {team.map((monster, index) => (
-        <Card key={index} className="relative hover:shadow-md transition-shadow py-2">
+        <Card
+          key={index}
+          className="relative hover:shadow-md transition-shadow py-2"
+        >
           {monster ? (
             <>
               <Button
@@ -38,7 +41,9 @@ export function TeamSlots({ team, onRemove }: TeamSlotsProps) {
                     </div>
                   )}
                   <div className="flex-1 min-w-0 space-y-1">
-                    <h3 className="font-semibold text-sm leading-tight">{monster.name}</h3>
+                    <h3 className="font-semibold text-sm leading-tight">
+                      {monster.name}
+                    </h3>
                     <div className="flex flex-wrap gap-0.5">
                       {monster.elements.map((element) => (
                         <ElementBadge key={element} element={element} />
@@ -60,7 +65,9 @@ export function TeamSlots({ team, onRemove }: TeamSlotsProps) {
             </>
           ) : (
             <CardContent className="flex h-16 items-center justify-center">
-              <p className="text-muted-foreground text-xs">Empty Slot {index + 1}</p>
+              <p className="text-muted-foreground text-xs">
+                Empty Slot {index + 1}
+              </p>
             </CardContent>
           )}
         </Card>

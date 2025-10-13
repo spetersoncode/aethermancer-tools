@@ -1,8 +1,7 @@
-import { Link, useLocation } from "react-router";
-import { Button } from "~/components/ui/button";
-import { Home, Library, Users } from "lucide-react";
-import { cn } from "~/lib/utils";
-import { ThemeToggle } from "~/components/theme-toggle";
+import { Link, useLocation } from 'react-router';
+import { Button } from '~/components/ui/button';
+import { Home, Library, Users } from 'lucide-react';
+import { ThemeToggle } from '~/components/theme-toggle';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -14,9 +13,9 @@ export function AppLayout({ children }: AppLayoutProps) {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
-    { to: "/", label: "Home", icon: Home },
-    { to: "/aetherdex", label: "Aetherdex", icon: Library },
-    { to: "/team-builder", label: "Team Builder", icon: Users },
+    { to: '/', label: 'Home', icon: Home },
+    { to: '/aetherdex', label: 'Aetherdex', icon: Library },
+    { to: '/team-builder', label: 'Team Builder', icon: Users },
   ];
 
   return (
@@ -38,7 +37,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 {navLinks.map((link) => (
                   <Button
                     key={link.to}
-                    variant={isActive(link.to) ? "secondary" : "ghost"}
+                    variant={isActive(link.to) ? 'secondary' : 'ghost'}
                     size="sm"
                     asChild
                   >
@@ -58,7 +57,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 {navLinks.map((link) => (
                   <Button
                     key={link.to}
-                    variant={isActive(link.to) ? "secondary" : "ghost"}
+                    variant={isActive(link.to) ? 'secondary' : 'ghost'}
                     size="icon"
                     asChild
                     className="h-9 w-9"
@@ -87,7 +86,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               Aethermancer Tools - Community tools for Aethermancer players
             </p>
             <p className="text-sm text-muted-foreground">
-              Data from{" "}
+              Data from{' '}
               <a
                 href="https://aethermancer.wiki.gg"
                 target="_blank"

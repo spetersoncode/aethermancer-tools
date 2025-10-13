@@ -1,5 +1,5 @@
-import { CollectionCard } from "./collection-card";
-import { type Monster } from "~/data/monsters";
+import { CollectionCard } from './collection-card';
+import { type Monster } from '~/data/monsters';
 
 interface MonsterPair {
   base: Monster;

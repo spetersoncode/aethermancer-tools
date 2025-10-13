@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-import { Download, Upload } from "lucide-react";
-import { useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Download, Upload } from 'lucide-react';
+import { useRef } from 'react';
 
 interface CollectionActionsProps {
   collectedIds: string[];
@@ -22,18 +22,18 @@ export function CollectionActions({
 
   const handleSave = () => {
     const data: CollectionData = {
-      version: "1.0",
+      version: '1.0',
       exportDate: new Date().toISOString(),
       collectedIds,
     };
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: "application/json",
+      type: 'application/json',
     });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = `aetherdex-collection-${new Date().toISOString().split("T")[0]}.json`;
+    link.download = `aetherdex-collection-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -56,23 +56,23 @@ export function CollectionActions({
 
         // Validate the data structure
         if (!data.collectedIds || !Array.isArray(data.collectedIds)) {
-          throw new Error("Invalid collection file format");
+          throw new Error('Invalid collection file format');
         }
 
         // Validate that all IDs are strings
-        if (!data.collectedIds.every((id) => typeof id === "string")) {
-          throw new Error("Invalid collection data");
+        if (!data.collectedIds.every((id) => typeof id === 'string')) {
+          throw new Error('Invalid collection data');
         }
 
         onLoad(data.collectedIds);
 
         // Reset the file input so the same file can be loaded again
         if (fileInputRef.current) {
-          fileInputRef.current.value = "";
+          fileInputRef.current.value = '';
         }
       } catch (error) {
-        console.error("Error loading collection:", error);
-        alert("Failed to load collection. Please check the file format.");
+        console.error('Error loading collection:', error);
+        alert('Failed to load collection. Please check the file format.');
       }
     };
     reader.readAsText(file);

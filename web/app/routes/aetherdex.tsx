@@ -1,17 +1,17 @@
-import { useMemo } from "react";
-import type { Route } from "./+types/aetherdex";
-import { CollectionGrid } from "~/components/aetherdex/collection-grid";
-import { CollectionStats } from "~/components/aetherdex/collection-stats";
-import { CollectionActions } from "~/components/aetherdex/collection-actions";
-import { monsters, type Monster } from "~/data/monsters";
-import { useLocalStorage } from "~/hooks/useLocalStorage";
+import { useMemo } from 'react';
+import type { Route } from './+types/aetherdex';
+import { CollectionGrid } from '~/components/aetherdex/collection-grid';
+import { CollectionStats } from '~/components/aetherdex/collection-stats';
+import { CollectionActions } from '~/components/aetherdex/collection-actions';
+import { monsters, type Monster } from '~/data/monsters';
+import { useLocalStorage } from '~/hooks/useLocalStorage';
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Aetherdex - Aethermancer" },
+    { title: 'Aetherdex - Aethermancer' },
     {
-      name: "description",
-      content: "Track your Aethermancer monster collection",
+      name: 'description',
+      content: 'Track your Aethermancer monster collection',
     },
   ];
 }
@@ -24,15 +24,12 @@ interface MonsterPair {
 export default function Aetherdex() {
   // Local storage for collected monsters
   const [collectedIds, setCollectedIds] = useLocalStorage<string[]>(
-    "aetherdex-collection",
+    'aetherdex-collection',
     []
   );
 
   // Convert array to Set for faster lookups
-  const collectedSet = useMemo(
-    () => new Set(collectedIds),
-    [collectedIds]
-  );
+  const collectedSet = useMemo(() => new Set(collectedIds), [collectedIds]);
 
   // Group monsters into base/shifted pairs
   const monsterPairs = useMemo(() => {
@@ -43,7 +40,7 @@ export default function Aetherdex() {
       if (processedIds.has(monster.id)) return;
 
       // Check if this is a base monster (not shifted)
-      if (!monster.id.endsWith("-shifted")) {
+      if (!monster.id.endsWith('-shifted')) {
         const shiftedId = `${monster.id}-shifted`;
         const shiftedMonster = monsters.find((m) => m.id === shiftedId);
 
@@ -62,7 +59,6 @@ export default function Aetherdex() {
     // Sort pairs alphabetically by base monster name
     return pairs.sort((a, b) => a.base.name.localeCompare(b.base.name));
   }, []);
-
 
   // Toggle collected state
   const handleToggleCollected = (monsterId: string) => {
@@ -87,12 +83,8 @@ export default function Aetherdex() {
       collectedSet.has(m.id)
     ).length;
 
-    const baseMonsters = monsters.filter(
-      (m) => !m.id.endsWith("-shifted")
-    );
-    const shiftedMonsters = monsters.filter((m) =>
-      m.id.endsWith("-shifted")
-    );
+    const baseMonsters = monsters.filter((m) => !m.id.endsWith('-shifted'));
+    const shiftedMonsters = monsters.filter((m) => m.id.endsWith('-shifted'));
 
     const totalBase = baseMonsters.length;
     const collectedBase = baseMonsters.filter((m) =>

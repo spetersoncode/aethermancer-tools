@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Separator } from "../ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Separator } from '../ui/separator';
 
 interface CollectionStatsProps {
   totalMonsters: number;
@@ -18,9 +18,8 @@ export function CollectionStats({
   totalShifted,
   collectedShifted,
 }: CollectionStatsProps) {
-  const completionPercentage = totalMonsters > 0
-    ? Math.round((collectedCount / totalMonsters) * 100)
-    : 0;
+  const completionPercentage =
+    totalMonsters > 0 ? Math.round((collectedCount / totalMonsters) * 100) : 0;
 
   return (
     <Card>
@@ -61,7 +60,7 @@ export function CollectionStats({
             <div
               className="bg-blue-500 h-full transition-all duration-500"
               style={{
-                width: `${totalBase > 0 ? (collectedBase / totalBase) * 100 : 0}%`
+                width: `${totalBase > 0 ? (collectedBase / totalBase) * 100 : 0}%`,
               }}
             />
           </div>
@@ -78,7 +77,7 @@ export function CollectionStats({
             <div
               className="bg-purple-500 h-full transition-all duration-500"
               style={{
-                width: `${totalShifted > 0 ? (collectedShifted / totalShifted) * 100 : 0}%`
+                width: `${totalShifted > 0 ? (collectedShifted / totalShifted) * 100 : 0}%`,
               }}
             />
           </div>

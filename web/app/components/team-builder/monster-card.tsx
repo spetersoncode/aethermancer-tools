@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ElementBadge } from "./element-badge";
-import { TypeBadge } from "./type-badge";
-import { type Monster } from "~/data/monsters";
-import { cn } from "~/lib/utils";
+import { Card, CardContent } from '../ui/card';
+import { ElementBadge } from './element-badge';
+import { TypeBadge } from './type-badge';
+import { type Monster } from '~/data/monsters';
+import { cn } from '~/lib/utils';
 
 interface MonsterCardProps {
   monster: Monster;
@@ -20,8 +20,9 @@ export function MonsterCard({
   return (
     <Card
       className={cn(
-        "cursor-pointer transition-all hover:shadow-lg hover:scale-[1.01] py-2",
-        isSelected && "bg-primary/10 dark:bg-primary/20 shadow-xl border-primary/50 scale-[1.01]",
+        'cursor-pointer transition-all hover:shadow-lg hover:scale-[1.01] py-2',
+        isSelected &&
+          'bg-primary/10 dark:bg-primary/20 shadow-xl border-primary/50 scale-[1.01]',
         className
       )}
       onClick={onClick}
@@ -37,7 +38,9 @@ export function MonsterCard({
           </div>
         )}
         <div className="flex-1 min-w-0 space-y-1.5">
-          <h3 className="font-semibold text-base leading-tight">{monster.name}</h3>
+          <h3 className="font-semibold text-base leading-tight">
+            {monster.name}
+          </h3>
           {monster.elements.length > 0 && (
             <div className="flex flex-wrap gap-0.5">
               {monster.elements.map((element) => (

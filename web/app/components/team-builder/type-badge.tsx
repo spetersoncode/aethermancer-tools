@@ -1,6 +1,6 @@
-import { Badge } from "../ui/badge";
-import { type MonsterType } from "~/data/monsters";
-import { cn } from "~/lib/utils";
+import { Badge } from '../ui/badge';
+import { type MonsterType } from '~/data/monsters';
+import { cn } from '~/lib/utils';
 
 interface TypeBadgeProps {
   type: MonsterType;

@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Separator } from "../ui/separator";
-import { ElementBadge } from "./element-badge";
-import { TypeBadge } from "./type-badge";
-import { type Monster, type Element, type MonsterType } from "~/data/monsters";
+import { Card, CardContent } from '../ui/card';
+import { Separator } from '../ui/separator';
+import { ElementBadge } from './element-badge';
+import { TypeBadge } from './type-badge';
+import { type Monster, type Element, type MonsterType } from '~/data/monsters';
 
 interface TeamStatsProps {
   team: (Monster | null)[];
@@ -57,7 +57,9 @@ export function TeamStats({ team }: TeamStatsProps) {
         <h3 className="text-xs font-semibold">Team Composition</h3>
 
         <div className="space-y-1.5">
-          <span className="text-xs font-medium text-muted-foreground">Elements</span>
+          <span className="text-xs font-medium text-muted-foreground">
+            Elements
+          </span>
           {sortedElements.length > 0 ? (
             <div className="flex flex-wrap gap-1">
               {sortedElements.map(([element, count]) => (
@@ -75,7 +77,9 @@ export function TeamStats({ team }: TeamStatsProps) {
         <Separator className="bg-primary/20" />
 
         <div className="space-y-1.5">
-          <span className="text-xs font-medium text-muted-foreground">Types</span>
+          <span className="text-xs font-medium text-muted-foreground">
+            Types
+          </span>
           {sortedTypes.length > 0 ? (
             <div className="flex flex-wrap gap-1">
               {sortedTypes.map(([type, count]) => (
