@@ -292,7 +292,9 @@ describe('useTheme', () => {
       );
 
       // Verify the listener is set up for the correct media query
-      expect(window.matchMedia).toHaveBeenCalledWith('(prefers-color-scheme: dark)');
+      expect(window.matchMedia).toHaveBeenCalledWith(
+        '(prefers-color-scheme: dark)'
+      );
     });
 
     it('should not respond to system changes when theme is explicitly set', () => {

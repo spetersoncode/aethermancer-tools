@@ -5,7 +5,9 @@ A modern web application providing tools for Aethermancer players to track their
 ## Features
 
 ### Aetherdex
+
 A comprehensive collection tracker for Aethermancer monsters:
+
 - Track both base and shifted monster variants
 - View collection stats with completion percentages
 - Import and export collection data
@@ -13,7 +15,9 @@ A comprehensive collection tracker for Aethermancer monsters:
 - Search and filter capabilities
 
 ### Team Builder
+
 Build and optimize your perfect three-monster team:
+
 - Browse all available monsters with detailed stats
 - Visual team composition with element and type badges
 - Real-time team analysis and statistics
@@ -21,6 +25,7 @@ Build and optimize your perfect three-monster team:
 - Quick add/remove functionality
 
 ### Additional Features
+
 - Dark mode support with theme toggle
 - Responsive design for mobile and desktop
 - Server-side rendering (SSR) for optimal performance

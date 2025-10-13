@@ -30,11 +30,19 @@ describe('useLocalStorage', () => {
     });
 
     it('should handle complex objects', () => {
-      const complexObject = { name: 'Test', count: 42, nested: { value: true } };
+      const complexObject = {
+        name: 'Test',
+        count: 42,
+        nested: { value: true },
+      };
       localStorage.setItem('test-key', JSON.stringify(complexObject));
 
       const { result } = renderHook(() =>
-        useLocalStorage('test-key', { name: '', count: 0, nested: { value: false } })
+        useLocalStorage('test-key', {
+          name: '',
+          count: 0,
+          nested: { value: false },
+        })
       );
 
       expect(result.current[0]).toEqual(complexObject);
@@ -44,7 +52,9 @@ describe('useLocalStorage', () => {
       const array = [1, 2, 3, 4, 5];
       localStorage.setItem('test-key', JSON.stringify(array));
 
-      const { result } = renderHook(() => useLocalStorage('test-key', [] as number[]));
+      const { result } = renderHook(() =>
+        useLocalStorage('test-key', [] as number[])
+      );
 
       expect(result.current[0]).toEqual(array);
     });
@@ -53,7 +63,9 @@ describe('useLocalStorage', () => {
   describe('error handling', () => {
     it('should return initial value when localStorage has invalid JSON', () => {
       localStorage.setItem('test-key', 'invalid-json{');
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       const { result } = renderHook(() =>
         useLocalStorage('test-key', 'fallback-value')
@@ -69,7 +81,9 @@ describe('useLocalStorage', () => {
     });
 
     it('should handle localStorage.getItem throwing an error', () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
       vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
         throw new Error('localStorage is not available');
       });
@@ -97,7 +111,9 @@ describe('useLocalStorage', () => {
       });
 
       expect(result.current[0]).toBe('new-value');
-      expect(localStorage.getItem('test-key')).toBe(JSON.stringify('new-value'));
+      expect(localStorage.getItem('test-key')).toBe(
+        JSON.stringify('new-value')
+      );
     });
 
     it('should persist multiple updates', () => {
@@ -158,7 +174,9 @@ describe('useLocalStorage', () => {
       expect(result1.current[0]).toBe('updated');
       // Note: result2 won't automatically update without a re-render mechanism
       // but localStorage should be updated
-      expect(localStorage.getItem('shared-key')).toBe(JSON.stringify('updated'));
+      expect(localStorage.getItem('shared-key')).toBe(
+        JSON.stringify('updated')
+      );
     });
   });
 

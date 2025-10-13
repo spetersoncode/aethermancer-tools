@@ -17,8 +17,8 @@ export default tseslint.config(
       'dist/**',
       'coverage/**',
       '*.config.js',
-      '*.config.ts'
-    ]
+      '*.config.ts',
+    ],
   },
 
   // Base configs
@@ -33,7 +33,7 @@ export default tseslint.config(
       'react-hooks': reactHooksPlugin,
       'react-refresh': reactRefreshPlugin,
       'jsx-a11y': jsxA11yPlugin,
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -41,30 +41,36 @@ export default tseslint.config(
         ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: {
-          jsx: true
-        }
+          jsx: true,
+        },
       },
       globals: {
         browser: true,
         es2022: true,
-        node: true
-      }
+        node: true,
+      },
     },
     settings: {
       react: {
-        version: 'detect'
-      }
+        version: 'detect',
+      },
     },
     rules: {
       // TypeScript rules
-      '@typescript-eslint/no-unused-vars': ['error', {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_'
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/consistent-type-imports': ['error', {
-        prefer: 'type-imports'
-      }],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+        },
+      ],
 
       // React rules
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+
@@ -77,10 +83,21 @@ export default tseslint.config(
       'react-hooks/exhaustive-deps': 'warn',
 
       // React Refresh rules (for Vite HMR)
-      'react-refresh/only-export-components': ['warn', {
-        allowConstantExport: true,
-        allowExportNames: ['meta', 'loader', 'action', 'headers', 'links', 'handle', 'shouldRevalidate']
-      }],
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+          allowExportNames: [
+            'meta',
+            'loader',
+            'action',
+            'headers',
+            'links',
+            'handle',
+            'shouldRevalidate',
+          ],
+        },
+      ],
 
       // Accessibility rules
       'jsx-a11y/alt-text': 'warn',
@@ -92,16 +109,16 @@ export default tseslint.config(
       'jsx-a11y/role-supports-aria-props': 'error',
 
       // Prettier integration
-      'prettier/prettier': 'error'
-    }
+      'prettier/prettier': 'error',
+    },
   },
 
   // UI components override - allow variant exports (shadcn/ui pattern)
   {
     files: ['**/components/ui/**/*.{ts,tsx}'],
     rules: {
-      'react-refresh/only-export-components': 'off'
-    }
+      'react-refresh/only-export-components': 'off',
+    },
   },
 
   // Prettier config should come last to override other formatting rules

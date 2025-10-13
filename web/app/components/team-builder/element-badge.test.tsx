@@ -106,7 +106,9 @@ describe('ElementBadge', () => {
   describe('text color', () => {
     it('should have white text for all elements', () => {
       ALL_ELEMENTS.forEach((element) => {
-        const { container, unmount } = render(<ElementBadge element={element} />);
+        const { container, unmount } = render(
+          <ElementBadge element={element} />
+        );
         const badge = container.firstChild as HTMLElement;
         expect(badge.className).toContain('text-white');
         unmount();
@@ -181,31 +183,71 @@ describe('ElementBadge', () => {
 
   describe('visual consistency', () => {
     it('should use consistent color shade (600) for all elements', () => {
-      const { container: earthContainer } = render(<ElementBadge element="Earth" />);
-      const { container: fireContainer } = render(<ElementBadge element="Fire" />);
-      const { container: waterContainer } = render(<ElementBadge element="Water" />);
-      const { container: windContainer } = render(<ElementBadge element="Wind" />);
-      const { container: wildContainer } = render(<ElementBadge element="Wild" />);
+      const { container: earthContainer } = render(
+        <ElementBadge element="Earth" />
+      );
+      const { container: fireContainer } = render(
+        <ElementBadge element="Fire" />
+      );
+      const { container: waterContainer } = render(
+        <ElementBadge element="Water" />
+      );
+      const { container: windContainer } = render(
+        <ElementBadge element="Wind" />
+      );
+      const { container: wildContainer } = render(
+        <ElementBadge element="Wild" />
+      );
 
-      expect((earthContainer.firstChild as HTMLElement).className).toMatch(/-600/);
-      expect((fireContainer.firstChild as HTMLElement).className).toMatch(/-600/);
-      expect((waterContainer.firstChild as HTMLElement).className).toMatch(/-600/);
-      expect((windContainer.firstChild as HTMLElement).className).toMatch(/-600/);
-      expect((wildContainer.firstChild as HTMLElement).className).toMatch(/-600/);
+      expect((earthContainer.firstChild as HTMLElement).className).toMatch(
+        /-600/
+      );
+      expect((fireContainer.firstChild as HTMLElement).className).toMatch(
+        /-600/
+      );
+      expect((waterContainer.firstChild as HTMLElement).className).toMatch(
+        /-600/
+      );
+      expect((windContainer.firstChild as HTMLElement).className).toMatch(
+        /-600/
+      );
+      expect((wildContainer.firstChild as HTMLElement).className).toMatch(
+        /-600/
+      );
     });
 
     it('should use consistent hover shade (700) for all elements', () => {
-      const { container: earthContainer } = render(<ElementBadge element="Earth" />);
-      const { container: fireContainer } = render(<ElementBadge element="Fire" />);
-      const { container: waterContainer } = render(<ElementBadge element="Water" />);
-      const { container: windContainer } = render(<ElementBadge element="Wind" />);
-      const { container: wildContainer } = render(<ElementBadge element="Wild" />);
+      const { container: earthContainer } = render(
+        <ElementBadge element="Earth" />
+      );
+      const { container: fireContainer } = render(
+        <ElementBadge element="Fire" />
+      );
+      const { container: waterContainer } = render(
+        <ElementBadge element="Water" />
+      );
+      const { container: windContainer } = render(
+        <ElementBadge element="Wind" />
+      );
+      const { container: wildContainer } = render(
+        <ElementBadge element="Wild" />
+      );
 
-      expect((earthContainer.firstChild as HTMLElement).className).toContain('hover:bg-');
-      expect((fireContainer.firstChild as HTMLElement).className).toContain('hover:bg-');
-      expect((waterContainer.firstChild as HTMLElement).className).toContain('hover:bg-');
-      expect((windContainer.firstChild as HTMLElement).className).toContain('hover:bg-');
-      expect((wildContainer.firstChild as HTMLElement).className).toContain('hover:bg-');
+      expect((earthContainer.firstChild as HTMLElement).className).toContain(
+        'hover:bg-'
+      );
+      expect((fireContainer.firstChild as HTMLElement).className).toContain(
+        'hover:bg-'
+      );
+      expect((waterContainer.firstChild as HTMLElement).className).toContain(
+        'hover:bg-'
+      );
+      expect((windContainer.firstChild as HTMLElement).className).toContain(
+        'hover:bg-'
+      );
+      expect((wildContainer.firstChild as HTMLElement).className).toContain(
+        'hover:bg-'
+      );
     });
   });
 
@@ -223,7 +265,9 @@ describe('ElementBadge', () => {
 
     it('should render text in white for contrast against dark backgrounds', () => {
       ALL_ELEMENTS.forEach((element) => {
-        const { container, unmount } = render(<ElementBadge element={element} />);
+        const { container, unmount } = render(
+          <ElementBadge element={element} />
+        );
         const badge = container.firstChild as HTMLElement;
         // All badges should have text-white for good contrast
         expect(badge.className).toContain('text-white');
@@ -234,16 +278,28 @@ describe('ElementBadge', () => {
 
   describe('element theme matching', () => {
     it('should use nature colors for nature elements', () => {
-      const { container: earthContainer } = render(<ElementBadge element="Earth" />);
-      const { container: waterContainer } = render(<ElementBadge element="Water" />);
-      const { container: windContainer } = render(<ElementBadge element="Wind" />);
+      const { container: earthContainer } = render(
+        <ElementBadge element="Earth" />
+      );
+      const { container: waterContainer } = render(
+        <ElementBadge element="Water" />
+      );
+      const { container: windContainer } = render(
+        <ElementBadge element="Wind" />
+      );
 
       // Earth = yellow (earth/ground)
-      expect((earthContainer.firstChild as HTMLElement).className).toContain('yellow');
+      expect((earthContainer.firstChild as HTMLElement).className).toContain(
+        'yellow'
+      );
       // Water = blue (water)
-      expect((waterContainer.firstChild as HTMLElement).className).toContain('blue');
+      expect((waterContainer.firstChild as HTMLElement).className).toContain(
+        'blue'
+      );
       // Wind = green (nature/air)
-      expect((windContainer.firstChild as HTMLElement).className).toContain('green');
+      expect((windContainer.firstChild as HTMLElement).className).toContain(
+        'green'
+      );
     });
 
     it('should use hot colors for Fire element', () => {
@@ -255,7 +311,9 @@ describe('ElementBadge', () => {
     it('should use magical color for Wild element', () => {
       const { container } = render(<ElementBadge element="Wild" />);
       // Wild = purple (magical/mystical)
-      expect((container.firstChild as HTMLElement).className).toContain('purple');
+      expect((container.firstChild as HTMLElement).className).toContain(
+        'purple'
+      );
     });
   });
 });

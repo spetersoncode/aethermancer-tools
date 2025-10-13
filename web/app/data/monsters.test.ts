@@ -59,7 +59,7 @@ describe('Monster Data', () => {
       ];
 
       // Check all expected types are present
-      expectedTypes.forEach(type => {
+      expectedTypes.forEach((type) => {
         expect(types).toContain(type);
       });
     });
@@ -210,7 +210,9 @@ describe('Monster Data', () => {
           // At least one should be different (allow for exact duplicates if they exist in data)
           // This test is lenient since some shifted variants might intentionally have same stats
           if (sameElements && sameTypes) {
-            console.warn(`Warning: ${baseMonster.id} and ${shiftedId} have identical stats`);
+            console.warn(
+              `Warning: ${baseMonster.id} and ${shiftedId} have identical stats`
+            );
           }
           // We'll just check they exist rather than forcing difference
           expect(shiftedMonster).toBeDefined();
@@ -272,9 +274,7 @@ describe('Monster Data', () => {
 
   describe('Special monsters', () => {
     it('should have Grimoire as the only Wild element monster', () => {
-      const wildMonsters = monsters.filter((m) =>
-        m.elements.includes('Wild')
-      );
+      const wildMonsters = monsters.filter((m) => m.elements.includes('Wild'));
 
       // Grimoire and Grimoire-shifted
       expect(wildMonsters.length).toBe(2);
@@ -283,9 +283,7 @@ describe('Monster Data', () => {
     });
 
     it('should have Wild monsters with only Wild element', () => {
-      const wildMonsters = monsters.filter((m) =>
-        m.elements.includes('Wild')
-      );
+      const wildMonsters = monsters.filter((m) => m.elements.includes('Wild'));
 
       wildMonsters.forEach((monster) => {
         expect(monster.elements).toEqual(['Wild']);

@@ -33,13 +33,17 @@ describe('TeamStats', () => {
       render(<TeamStats team={[null, null, null]} />);
 
       expect(screen.getByText('Team Composition')).toBeInTheDocument();
-      expect(screen.getByText('Select monsters to see composition')).toBeInTheDocument();
+      expect(
+        screen.getByText('Select monsters to see composition')
+      ).toBeInTheDocument();
     });
 
     it('should display placeholder for all null team', () => {
       render(<TeamStats team={[null, null, null, null, null, null]} />);
 
-      expect(screen.getByText('Select monsters to see composition')).toBeInTheDocument();
+      expect(
+        screen.getByText('Select monsters to see composition')
+      ).toBeInTheDocument();
     });
   });
 
@@ -132,7 +136,9 @@ describe('TeamStats', () => {
       };
 
       render(
-        <TeamStats team={[mockMonster1, mockMonster2, monster4, mockMonster3]} />
+        <TeamStats
+          team={[mockMonster1, mockMonster2, monster4, mockMonster3]}
+        />
       );
 
       // Fire: 3, Water: 2, Earth: 1, Wind: 1
@@ -151,9 +157,7 @@ describe('TeamStats', () => {
         image: '/test4.png',
       };
 
-      render(
-        <TeamStats team={[mockMonster1, mockMonster2, mockMonster3]} />
-      );
+      render(<TeamStats team={[mockMonster1, mockMonster2, mockMonster3]} />);
 
       // Critical: 2, Heal: 2 (should be first two or in any order)
       const types = screen.getAllByText(
@@ -161,7 +165,9 @@ describe('TeamStats', () => {
       );
 
       // Most frequent types should appear first
-      const criticalIndex = types.findIndex((el) => el.textContent === 'Critical');
+      const criticalIndex = types.findIndex(
+        (el) => el.textContent === 'Critical'
+      );
       const healIndex = types.findIndex((el) => el.textContent === 'Heal');
 
       expect(criticalIndex).toBeGreaterThanOrEqual(0);
@@ -241,12 +247,18 @@ describe('TeamStats', () => {
     });
 
     it('should filter out null monsters correctly', () => {
-      render(<TeamStats team={[null, mockMonster1, null, null, mockMonster2, null]} />);
+      render(
+        <TeamStats
+          team={[null, mockMonster1, null, null, mockMonster2, null]}
+        />
+      );
 
       expect(screen.getByText('Fire')).toBeInTheDocument();
       const multipliers = screen.getAllByText('×2');
       expect(multipliers.length).toBeGreaterThan(0);
-      expect(screen.queryByText('Select monsters to see composition')).not.toBeInTheDocument();
+      expect(
+        screen.queryByText('Select monsters to see composition')
+      ).not.toBeInTheDocument();
     });
 
     it('should handle monsters with all different elements', () => {
