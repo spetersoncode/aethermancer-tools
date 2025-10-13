@@ -1,87 +1,148 @@
-# Welcome to React Router!
+# Aethermancer Tools - Web
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+A modern web application providing tools for Aethermancer players to track their monster collection and build optimal teams.
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+### Aetherdex
+A comprehensive collection tracker for Aethermancer monsters:
+- Track both base and shifted monster variants
+- View collection stats with completion percentages
+- Import and export collection data
+- Persistent storage using browser local storage
+- Search and filter capabilities
+
+### Team Builder
+Build and optimize your perfect three-monster team:
+- Browse all available monsters with detailed stats
+- Visual team composition with element and type badges
+- Real-time team analysis and statistics
+- Filter monsters by elements and types
+- Quick add/remove functionality
+
+### Additional Features
+- Dark mode support with theme toggle
+- Responsive design for mobile and desktop
+- Server-side rendering (SSR) for optimal performance
+- Fast navigation with React Router v7
+
+## Tech Stack
+
+- **React Router v7** - Full-stack framework with SSR
+- **TypeScript** - Type-safe development
+- **Tailwind CSS v4** - Utility-first styling with @tailwindcss/vite
+- **shadcn/ui** - Accessible UI components built on Radix UI
+- **Lucide React** - Icon library
+- **Vite** - Fast build tooling
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 20+
+- pnpm
+
 ### Installation
 
-Install the dependencies:
+Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Development
 
-Start the development server with HMR:
+Start the development server with hot module replacement:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+The application will be available at `http://localhost:5173`.
+
+### Type Checking
+
+Run TypeScript type checking:
+
+```bash
+pnpm typecheck
+```
 
 ## Building for Production
 
 Create a production build:
 
 ```bash
-npm run build
+pnpm build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+Start the production server:
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+pnpm start
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+The production server runs on port 3000.
 
-- AWS ECS
+## Docker Deployment
+
+### Building the Docker Image
+
+```bash
+docker build -t aethermancer-tools-web .
+```
+
+### Running the Container
+
+```bash
+docker run -p 3000:3000 aethermancer-tools-web
+```
+
+The application will be available at `http://localhost:3000`.
+
+### Deployment Platforms
+
+The containerized application can be deployed to any platform that supports Docker:
+
 - Google Cloud Run
+- AWS ECS/Fargate
 - Azure Container Apps
 - Digital Ocean App Platform
 - Fly.io
 - Railway
 
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## Project Structure
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+web/
+├── app/
+│   ├── components/        # Reusable UI components
+│   │   ├── aetherdex/    # Aetherdex-specific components
+│   │   ├── team-builder/ # Team Builder components
+│   │   ├── ui/           # Base UI components (shadcn/ui)
+│   │   └── layout/       # Layout components
+│   ├── routes/           # React Router routes
+│   ├── data/             # Monster data and types
+│   ├── hooks/            # Custom React hooks
+│   └── root.tsx          # App root component
+├── public/               # Static assets
+├── build/                # Production build output
+├── Dockerfile            # Multi-stage Docker build
+├── react-router.config.ts # React Router configuration
+└── package.json          # Dependencies and scripts
 ```
 
-## Styling
+## Development Notes
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+- Monster data is stored in `app/data/monsters.ts`
+- Collection state persists in browser local storage
+- The app uses SSR by default (configurable in `react-router.config.ts`)
+- UI components follow the shadcn/ui pattern for easy customization
 
----
+## About Aethermancer
 
-Built with ❤️ using React Router.
+Aethermancer is a monster collecting and battling game. This web application provides companion tools to help players track their progress and strategize their teams.
+
+## License
+
+See the parent project for license information.
