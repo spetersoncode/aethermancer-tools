@@ -229,7 +229,7 @@ export const monsters: Monster[] = [
     id: "hecatoncheires",
     name: "Hecatoncheires",
     elements: ["Fire", "Water"],
-    types: ["Age", "Burn", "Summon"],
+    types: ["Age", "Weakness", "Summon"],
     image: "/images/monsters/hecatoncheires.png",
   },
   // Shifted Monsters

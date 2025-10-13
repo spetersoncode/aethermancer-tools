@@ -8,7 +8,7 @@ interface ElementBadgeProps {
 }
 
 const elementColors: Record<Element, string> = {
-  Earth: "bg-yellow-500 hover:bg-yellow-600 text-black",
+  Earth: "bg-yellow-600 hover:bg-yellow-700 text-white",
   Fire: "bg-red-600 hover:bg-red-700 text-white",
   Water: "bg-blue-600 hover:bg-blue-700 text-white",
   Wind: "bg-green-600 hover:bg-green-700 text-white",
