@@ -1,0 +1,68 @@
+# Cloud Build configuration for automated deployment
+# This file can be used with Cloud Build triggers for CI/CD
+
+# Build and deploy the React Router 7 application to Cloud Run
+
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_ARTIFACT_REGISTRY_URL}/${_APP_NAME}:${SHORT_SHA}'
+      - '-t'
+      - '${_ARTIFACT_REGISTRY_URL}/${_APP_NAME}:latest'
+      - '-f'
+      - 'web/Dockerfile'
+      - 'web/'
+    id: 'build-image'
+
+  # Step 2: Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_ARTIFACT_REGISTRY_URL}/${_APP_NAME}'
+    id: 'push-image'
+    waitFor: ['build-image']
+
+  # Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image'
+      - '${_ARTIFACT_REGISTRY_URL}/${_APP_NAME}:${SHORT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--quiet'
+    id: 'deploy-cloud-run'
+    waitFor: ['push-image']
+
+# Substitution variables
+# These should be configured in your Cloud Build trigger settings
+substitutions:
+  _ARTIFACT_REGISTRY_URL: 'us-west1-docker.pkg.dev/${PROJECT_ID}/aethermancer-tools-docker'
+  _APP_NAME: 'aethermancer-tools'
+  _SERVICE_NAME: 'aethermancer-tools-service'
+  _REGION: 'us-west1'
+
+# Options
+options:
+  # Use higher CPU for faster builds
+  machineType: 'E2_HIGHCPU_8'
+
+  # Build logs
+  logging: CLOUD_LOGGING_ONLY
+
+# Timeout for the entire build
+timeout: '1200s'  # 20 minutes
+
+# Images to be pushed to Artifact Registry
+images:
+  - '${_ARTIFACT_REGISTRY_URL}/${_APP_NAME}:${SHORT_SHA}'
+  - '${_ARTIFACT_REGISTRY_URL}/${_APP_NAME}:latest'
