@@ -222,7 +222,7 @@ export const monsters: Monster[] = [
     id: 'serket',
     name: 'Serket',
     elements: ['Earth', 'Water'],
-    types: ['Poison', 'Tank', 'Force'],
+    types: ['Poison', 'Shield', 'Force'],
     image: '/images/monsters/serket.png',
   },
   {
