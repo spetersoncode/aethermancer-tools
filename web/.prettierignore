@@ -1,0 +1,25 @@
+# Build outputs
+build/
+dist/
+.react-router/
+
+# Dependencies
+node_modules/
+
+# Test coverage
+coverage/
+
+# Logs
+*.log
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Environment files
+.env
+.env.*
+
+# Generated files
+*.d.ts.map
