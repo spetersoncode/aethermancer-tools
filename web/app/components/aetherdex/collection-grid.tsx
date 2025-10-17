@@ -1,4 +1,4 @@
-import { CollectionCard } from './collection-card';
+import { MonsterPairCard } from '../shared/monster-pair-card';
 import { type Monster } from '~/data/monsters';
 
 interface MonsterPair {
@@ -31,12 +31,14 @@ export function CollectionGrid({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       {monsterPairs.map((pair) => (
-        <CollectionCard
+        <MonsterPairCard
           key={pair.base.id}
           baseMonster={pair.base}
           shiftedMonster={pair.shifted}
-          collectedIds={collectedIds}
-          onToggleCollected={onToggleCollected}
+          selectedIds={collectedIds}
+          onMonsterClick={onToggleCollected}
+          showCheckmark
+          grayscaleUnselected
         />
       ))}
     </div>

@@ -5,8 +5,6 @@ import {
   getAllTypes,
   ALL_ELEMENTS,
   ALL_TYPES,
-  type Element,
-  type MonsterType,
 } from './monsters';
 
 describe('Monster Data', () => {

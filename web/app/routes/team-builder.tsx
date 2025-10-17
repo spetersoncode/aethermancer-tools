@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { Route } from './+types/team-builder';
 import { Button } from '~/components/ui/button';
-import { MonsterGrid } from '~/components/team-builder/monster-grid';
+import { MonsterPairCard } from '~/components/shared/monster-pair-card';
+import { MonsterFilters } from '~/components/shared/monster-filters';
 import { TeamSlots } from '~/components/team-builder/team-slots';
 import { TeamStats } from '~/components/team-builder/team-stats';
-import { monsters, type Monster } from '~/data/monsters';
+import {
+  monsters,
+  type Monster,
+  type Element,
+  type MonsterType,
+} from '~/data/monsters';
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -16,16 +22,85 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
+interface MonsterPair {
+  base: Monster;
+  shifted?: Monster;
+}
+
 export default function TeamBuilder() {
   const [team, setTeam] = useState<(Monster | null)[]>([null, null, null]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [elementFilter, setElementFilter] = useState<Element | null>(null);
+  const [typeFilter, setTypeFilter] = useState<MonsterType | null>(null);
 
-  const sortedMonsters = [...monsters].sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  // Group monsters into base/shifted pairs
+  const monsterPairs = useMemo(() => {
+    const pairs: MonsterPair[] = [];
+    const processedIds = new Set<string>();
 
-  const handleMonsterSelect = (monster: Monster) => {
+    monsters.forEach((monster) => {
+      if (processedIds.has(monster.id)) return;
+
+      // Check if this is a base monster (not shifted)
+      if (!monster.id.endsWith('-shifted')) {
+        const shiftedId = `${monster.id}-shifted`;
+        const shiftedMonster = monsters.find((m) => m.id === shiftedId);
+
+        pairs.push({
+          base: monster,
+          shifted: shiftedMonster,
+        });
+
+        processedIds.add(monster.id);
+        if (shiftedMonster) {
+          processedIds.add(shiftedMonster.id);
+        }
+      }
+    });
+
+    // Sort pairs alphabetically by base monster name
+    return pairs.sort((a, b) => a.base.name.localeCompare(b.base.name));
+  }, []);
+
+  // Filter logic
+  const filteredPairs = useMemo(() => {
+    return monsterPairs.filter((pair) => {
+      const monster = pair.base;
+
+      // Search filter
+      if (
+        searchQuery &&
+        !monster.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Element filter
+      if (elementFilter && !monster.elements.includes(elementFilter)) {
+        return false;
+      }
+
+      // Type filter
+      if (typeFilter && !monster.types.includes(typeFilter)) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [monsterPairs, searchQuery, elementFilter, typeFilter]);
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setElementFilter(null);
+    setTypeFilter(null);
+  };
+
+  const handleMonsterClick = (monsterId: string) => {
+    const monster = monsters.find((m) => m.id === monsterId);
+    if (!monster) return;
+
     // Check if monster is already in team
-    const monsterIndex = team.findIndex((m) => m?.id === monster.id);
+    const monsterIndex = team.findIndex((m) => m?.id === monsterId);
     if (monsterIndex !== -1) {
       // Remove from team
       const newTeam = [...team];
@@ -54,6 +129,12 @@ export default function TeamBuilder() {
   };
 
   const selectedMonsters = team.filter((m): m is Monster => m !== null);
+
+  // Convert selected monsters to Set for easier lookup
+  const selectedIds = useMemo(
+    () => new Set(selectedMonsters.map((m) => m.id)),
+    [selectedMonsters]
+  );
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-6">
@@ -88,12 +169,40 @@ export default function TeamBuilder() {
         </aside>
 
         {/* Right Panel - Monster Selection */}
-        <main className="min-w-0">
-          <MonsterGrid
-            monsters={sortedMonsters}
-            selectedMonsters={selectedMonsters}
-            onMonsterSelect={handleMonsterSelect}
+        <main className="min-w-0 space-y-4">
+          {/* Filters */}
+          <MonsterFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            elementFilter={elementFilter}
+            onElementFilterChange={setElementFilter}
+            typeFilter={typeFilter}
+            onTypeFilterChange={setTypeFilter}
+            onClearFilters={clearFilters}
+            resultCount={filteredPairs.length}
           />
+
+          {/* Monster Grid */}
+          {filteredPairs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {filteredPairs.map((pair) => (
+                <MonsterPairCard
+                  key={pair.base.id}
+                  baseMonster={pair.base}
+                  shiftedMonster={pair.shifted}
+                  selectedIds={selectedIds}
+                  onMonsterClick={handleMonsterClick}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-muted-foreground text-lg">No monsters found</p>
+              <p className="text-muted-foreground text-sm mt-2">
+                Try adjusting your filters
+              </p>
+            </div>
+          )}
         </main>
       </div>
     </div>

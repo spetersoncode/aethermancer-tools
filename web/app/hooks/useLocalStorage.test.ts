@@ -195,7 +195,9 @@ describe('useLocalStorage', () => {
 
   describe('edge cases', () => {
     it('should handle null values', () => {
-      const { result } = renderHook(() => useLocalStorage('nullable', null));
+      const { result } = renderHook(() =>
+        useLocalStorage<string | null>('nullable', null)
+      );
 
       expect(result.current[0]).toBeNull();
 

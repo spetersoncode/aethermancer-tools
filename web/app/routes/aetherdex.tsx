@@ -1,9 +1,15 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { Route } from './+types/aetherdex';
 import { CollectionGrid } from '~/components/aetherdex/collection-grid';
 import { CollectionStats } from '~/components/aetherdex/collection-stats';
 import { CollectionActions } from '~/components/aetherdex/collection-actions';
-import { monsters, type Monster } from '~/data/monsters';
+import { MonsterFilters } from '~/components/shared/monster-filters';
+import {
+  monsters,
+  type Monster,
+  type Element,
+  type MonsterType,
+} from '~/data/monsters';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
 
 export function meta(_: Route.MetaArgs) {
@@ -27,6 +33,11 @@ export default function Aetherdex() {
     'aetherdex-collection',
     []
   );
+
+  // Filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [elementFilter, setElementFilter] = useState<Element | null>(null);
+  const [typeFilter, setTypeFilter] = useState<MonsterType | null>(null);
 
   // Convert array to Set for faster lookups
   const collectedSet = useMemo(() => new Set(collectedIds), [collectedIds]);
@@ -59,6 +70,39 @@ export default function Aetherdex() {
     // Sort pairs alphabetically by base monster name
     return pairs.sort((a, b) => a.base.name.localeCompare(b.base.name));
   }, []);
+
+  // Filter logic
+  const filteredPairs = useMemo(() => {
+    return monsterPairs.filter((pair) => {
+      const monster = pair.base;
+
+      // Search filter
+      if (
+        searchQuery &&
+        !monster.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Element filter
+      if (elementFilter && !monster.elements.includes(elementFilter)) {
+        return false;
+      }
+
+      // Type filter
+      if (typeFilter && !monster.types.includes(typeFilter)) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [monsterPairs, searchQuery, elementFilter, typeFilter]);
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setElementFilter(null);
+    setTypeFilter(null);
+  };
 
   // Toggle collected state
   const handleToggleCollected = (monsterId: string) => {
@@ -130,9 +174,22 @@ export default function Aetherdex() {
         </aside>
 
         {/* Right Panel - Monster Collection Grid */}
-        <main className="min-w-0">
+        <main className="min-w-0 space-y-4">
+          {/* Filters */}
+          <MonsterFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            elementFilter={elementFilter}
+            onElementFilterChange={setElementFilter}
+            typeFilter={typeFilter}
+            onTypeFilterChange={setTypeFilter}
+            onClearFilters={clearFilters}
+            resultCount={filteredPairs.length}
+          />
+
+          {/* Monster Collection Grid */}
           <CollectionGrid
-            monsterPairs={monsterPairs}
+            monsterPairs={filteredPairs}
             collectedIds={collectedSet}
             onToggleCollected={handleToggleCollected}
           />

@@ -149,14 +149,6 @@ describe('TeamStats', () => {
     });
 
     it('should sort types by frequency (descending)', () => {
-      const monster4: Monster = {
-        id: 'test-4',
-        name: 'Test Monster 4',
-        elements: ['Fire'],
-        types: ['Critical', 'Critical', 'Power'],
-        image: '/test4.png',
-      };
-
       render(<TeamStats team={[mockMonster1, mockMonster2, mockMonster3]} />);
 
       // Critical: 2, Heal: 2 (should be first two or in any order)
