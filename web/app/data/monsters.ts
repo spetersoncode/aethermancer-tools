@@ -435,3 +435,16 @@ export const monsters: Monster[] = [
 export const getAllElements = (): Element[] => [...ALL_ELEMENTS];
 
 export const getAllTypes = (): MonsterType[] => [...ALL_TYPES];
+
+// Zod validation schemas
+import { z } from 'zod';
+
+// Create a Set of valid monster IDs for efficient lookup
+const validMonsterIds = new Set(monsters.map((m) => m.id));
+
+export const MonsterIdSchema = z
+  .string()
+  .min(1, 'Monster ID cannot be empty')
+  .refine((id) => validMonsterIds.has(id), {
+    message: 'Invalid monster ID',
+  });

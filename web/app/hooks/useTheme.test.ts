@@ -350,4 +350,96 @@ describe('useTheme', () => {
       );
     });
   });
+
+  describe('schema validation', () => {
+    it('should validate stored theme value with ThemeSchema', () => {
+      localStorage.setItem('theme-preference', JSON.stringify('dark'));
+
+      const { result } = renderHook(() => useTheme());
+
+      // Should successfully validate and use the stored value
+      expect(result.current.theme).toBe('dark');
+    });
+
+    it('should fall back to system when localStorage has invalid theme value', () => {
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
+
+      // Store an invalid theme value
+      localStorage.setItem('theme-preference', JSON.stringify('invalid-theme'));
+
+      const { result } = renderHook(() => useTheme());
+
+      // Should fall back to default 'system' theme
+      expect(result.current.theme).toBe('system');
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('failed validation'),
+        expect.any(Array)
+      );
+
+      consoleWarnSpy.mockRestore();
+    });
+
+    it('should reject corrupted theme data and use default', () => {
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
+
+      // Store a completely wrong type
+      localStorage.setItem('theme-preference', JSON.stringify(123));
+
+      const { result } = renderHook(() => useTheme());
+
+      expect(result.current.theme).toBe('system');
+      expect(consoleWarnSpy).toHaveBeenCalled();
+
+      consoleWarnSpy.mockRestore();
+    });
+
+    it('should accept all valid theme values', () => {
+      const validThemes: Array<'light' | 'dark' | 'system'> = [
+        'light',
+        'dark',
+        'system',
+      ];
+
+      validThemes.forEach((theme) => {
+        localStorage.clear();
+        localStorage.setItem('theme-preference', JSON.stringify(theme));
+
+        const { result } = renderHook(() => useTheme());
+        expect(result.current.theme).toBe(theme);
+      });
+    });
+
+    it('should handle manually edited localStorage with typo', () => {
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
+
+      // Simulate user manually editing localStorage with a typo
+      localStorage.setItem('theme-preference', JSON.stringify('drak')); // typo: 'drak' instead of 'dark'
+
+      const { result } = renderHook(() => useTheme());
+
+      expect(result.current.theme).toBe('system');
+      expect(consoleWarnSpy).toHaveBeenCalled();
+
+      consoleWarnSpy.mockRestore();
+    });
+
+    it('should validate theme after updates', () => {
+      const { result } = renderHook(() => useTheme());
+
+      act(() => {
+        result.current.setTheme('light');
+      });
+
+      // After setting, the value in localStorage should be valid
+      const storedValue = localStorage.getItem('theme-preference');
+      expect(storedValue).toBe(JSON.stringify('light'));
+      expect(result.current.theme).toBe('light');
+    });
+  });
 });

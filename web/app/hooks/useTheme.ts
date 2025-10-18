@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
+import { z } from 'zod';
 import { useLocalStorage } from './useLocalStorage';
 
-export type Theme = 'light' | 'dark' | 'system';
+// Schema-first approach: define schema, then infer type
+export const ThemeSchema = z.enum(['light', 'dark', 'system']);
+export type Theme = z.infer<typeof ThemeSchema>;
 
 export function useTheme() {
   const [theme, setTheme] = useLocalStorage<Theme>(
     'theme-preference',
-    'system'
+    'system',
+    ThemeSchema
   );
 
   useEffect(() => {

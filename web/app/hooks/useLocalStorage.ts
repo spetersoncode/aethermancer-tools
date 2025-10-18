@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
+import { z } from 'zod';
 
-export function useLocalStorage<T>(key: string, initialValue: T) {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T,
+  schema?: z.ZodSchema<T>
+) {
   // Get initial value from localStorage or use provided initial value
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {
@@ -8,7 +13,26 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     }
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      if (!item) {
+        return initialValue;
+      }
+
+      const parsed = JSON.parse(item);
+
+      // Validate with schema if provided (industry-standard pattern)
+      if (schema) {
+        const result = schema.safeParse(parsed);
+        if (!result.success) {
+          console.warn(
+            `localStorage key "${key}" failed validation, using initial value:`,
+            result.error.issues
+          );
+          return initialValue;
+        }
+        return result.data;
+      }
+
+      return parsed;
     } catch (error) {
       console.error(`Error loading localStorage key "${key}":`, error);
       return initialValue;

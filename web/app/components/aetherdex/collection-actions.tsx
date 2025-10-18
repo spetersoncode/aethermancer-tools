@@ -2,16 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Download, Upload } from 'lucide-react';
 import { useRef } from 'react';
+import {
+  CollectionFile,
+  validateCollectionFile,
+  formatCollectionErrors,
+} from '~/lib/collection-schema';
 
 interface CollectionActionsProps {
   collectedIds: string[];
   onLoad: (ids: string[]) => void;
-}
-
-interface CollectionData {
-  version: string;
-  exportDate: string;
-  collectedIds: string[];
 }
 
 export function CollectionActions({
@@ -21,7 +20,7 @@ export function CollectionActions({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
-    const data: CollectionData = {
+    const data: CollectionFile = {
       version: '1.0',
       exportDate: new Date().toISOString(),
       collectedIds,
@@ -52,19 +51,19 @@ export function CollectionActions({
     reader.onload = (e) => {
       try {
         const content = e.target?.result as string;
-        const data = JSON.parse(content) as CollectionData;
+        const data = JSON.parse(content);
 
-        // Validate the data structure
-        if (!data.collectedIds || !Array.isArray(data.collectedIds)) {
-          throw new Error('Invalid collection file format');
+        // Use Zod validation (industry-standard pattern)
+        const result = validateCollectionFile(data);
+
+        if (!result.success) {
+          const errorMsg = formatCollectionErrors(result.error);
+          alert(`Invalid collection file:\n\n${errorMsg}`);
+          return;
         }
 
-        // Validate that all IDs are strings
-        if (!data.collectedIds.every((id) => typeof id === 'string')) {
-          throw new Error('Invalid collection data');
-        }
-
-        onLoad(data.collectedIds);
+        // Type-safe: result.data is guaranteed to be valid
+        onLoad(result.data.collectedIds);
 
         // Reset the file input so the same file can be loaded again
         if (fileInputRef.current) {
