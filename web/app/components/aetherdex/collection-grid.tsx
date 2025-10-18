@@ -4,6 +4,8 @@ import { type Monster } from '~/data/monsters';
 interface MonsterPair {
   base: Monster;
   shifted?: Monster;
+  showBase?: boolean;
+  showShifted?: boolean;
 }
 
 interface CollectionGridProps {
@@ -39,6 +41,8 @@ export function CollectionGrid({
           onMonsterClick={onToggleCollected}
           showCheckmark
           grayscaleUnselected
+          showBase={pair.showBase}
+          showShifted={pair.showShifted}
         />
       ))}
     </div>

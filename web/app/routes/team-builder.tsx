@@ -11,6 +11,7 @@ import {
   type Element,
   type MonsterType,
 } from '~/data/monsters';
+import { monsterMatchesFilters } from '~/utils/monster-filters';
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -25,6 +26,8 @@ export function meta(_: Route.MetaArgs) {
 interface MonsterPair {
   base: Monster;
   shifted?: Monster;
+  showBase?: boolean;
+  showShifted?: boolean;
 }
 
 export default function TeamBuilder() {
@@ -64,29 +67,25 @@ export default function TeamBuilder() {
 
   // Filter logic
   const filteredPairs = useMemo(() => {
-    return monsterPairs.filter((pair) => {
-      const monster = pair.base;
+    return monsterPairs
+      .map((pair) => {
+        const filters = { searchQuery, elementFilter, typeFilter };
 
-      // Search filter
-      if (
-        searchQuery &&
-        !monster.name.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        return false;
-      }
+        // Check if base monster matches filters
+        const baseMatches = monsterMatchesFilters(pair.base, filters);
 
-      // Element filter
-      if (elementFilter && !monster.elements.includes(elementFilter)) {
-        return false;
-      }
+        // Check if shifted monster matches filters (if it exists)
+        const shiftedMatches = pair.shifted
+          ? monsterMatchesFilters(pair.shifted, filters)
+          : false;
 
-      // Type filter
-      if (typeFilter && !monster.types.includes(typeFilter)) {
-        return false;
-      }
-
-      return true;
-    });
+        return {
+          ...pair,
+          showBase: baseMatches,
+          showShifted: shiftedMatches,
+        };
+      })
+      .filter((pair) => pair.showBase || pair.showShifted); // Only include pairs where at least one monster matches
   }, [monsterPairs, searchQuery, elementFilter, typeFilter]);
 
   const clearFilters = () => {
@@ -192,6 +191,8 @@ export default function TeamBuilder() {
                   shiftedMonster={pair.shifted}
                   selectedIds={selectedIds}
                   onMonsterClick={handleMonsterClick}
+                  showBase={pair.showBase}
+                  showShifted={pair.showShifted}
                 />
               ))}
             </div>

@@ -12,6 +12,8 @@ interface MonsterPairCardProps {
   onMonsterClick: (monsterId: string) => void;
   showCheckmark?: boolean;
   grayscaleUnselected?: boolean;
+  showBase?: boolean;
+  showShifted?: boolean;
 }
 
 function MonsterDisplay({
@@ -105,41 +107,66 @@ export function MonsterPairCard({
   onMonsterClick,
   showCheckmark = false,
   grayscaleUnselected = false,
+  showBase = true,
+  showShifted = true,
 }: MonsterPairCardProps) {
   const isBaseSelected = selectedIds.has(baseMonster.id);
   const isShiftedSelected = shiftedMonster
     ? selectedIds.has(shiftedMonster.id)
     : false;
 
+  // Determine if we should show a single expanded monster or the pair
+  const hasShifted = shiftedMonster !== undefined;
+  const showPair = (showBase && hasShifted && showShifted) || (showBase && !hasShifted);
+  const showOnlyBase = showBase && (!hasShifted || !showShifted);
+  const showOnlyShifted = !showBase && hasShifted && showShifted;
+
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-4">
-        <div className="grid grid-cols-2 gap-3">
-          <MonsterDisplay
-            monster={baseMonster}
-            isSelected={isBaseSelected}
-            onToggle={() => onMonsterClick(baseMonster.id)}
-            label="Base"
-            showCheckmark={showCheckmark}
-            grayscaleUnselected={grayscaleUnselected}
-          />
-          {shiftedMonster ? (
+        {/* Show single monster expanded when only one matches */}
+        {(showOnlyBase || showOnlyShifted) ? (
+          <div className="flex justify-center">
+            <div className="w-full max-w-[280px]">
+              <MonsterDisplay
+                monster={showOnlyBase ? baseMonster : shiftedMonster!}
+                isSelected={showOnlyBase ? isBaseSelected : isShiftedSelected}
+                onToggle={() => onMonsterClick(showOnlyBase ? baseMonster.id : shiftedMonster!.id)}
+                label={showOnlyBase ? 'Base' : 'Shifted'}
+                showCheckmark={showCheckmark}
+                grayscaleUnselected={grayscaleUnselected}
+              />
+            </div>
+          </div>
+        ) : (
+          /* Show both monsters side by side */
+          <div className="grid grid-cols-2 gap-3">
             <MonsterDisplay
-              monster={shiftedMonster}
-              isSelected={isShiftedSelected}
-              onToggle={() => onMonsterClick(shiftedMonster.id)}
-              label="Shifted"
+              monster={baseMonster}
+              isSelected={isBaseSelected}
+              onToggle={() => onMonsterClick(baseMonster.id)}
+              label="Base"
               showCheckmark={showCheckmark}
               grayscaleUnselected={grayscaleUnselected}
             />
-          ) : (
-            <div className="flex items-center justify-center p-3 rounded-lg border-2 border-dashed border-border bg-muted/20">
-              <span className="text-xs text-muted-foreground">
-                No Shifted Variant
-              </span>
-            </div>
-          )}
-        </div>
+            {shiftedMonster ? (
+              <MonsterDisplay
+                monster={shiftedMonster}
+                isSelected={isShiftedSelected}
+                onToggle={() => onMonsterClick(shiftedMonster.id)}
+                label="Shifted"
+                showCheckmark={showCheckmark}
+                grayscaleUnselected={grayscaleUnselected}
+              />
+            ) : (
+              <div className="flex items-center justify-center p-3 rounded-lg border-2 border-dashed border-border bg-muted/20">
+                <span className="text-xs text-muted-foreground">
+                  No Shifted Variant
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

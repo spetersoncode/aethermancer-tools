@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import { Download, Upload } from 'lucide-react';
 import { useRef } from 'react';
 import {
-  CollectionFile,
+  type CollectionFile,
   validateCollectionFile,
   formatCollectionErrors,
 } from '~/lib/collection-schema';
