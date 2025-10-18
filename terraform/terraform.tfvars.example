@@ -15,7 +15,9 @@ app_name = "aethermancer-tools"
 environment = "prod"
 
 # Artifact Registry Configuration
-artifact_registry_location = "us-west1"
+artifact_registry_location      = "us-west1"
+artifact_cleanup_retention_days = 30  # Delete images older than 30 days
+artifact_cleanup_keep_count     = 1   # Always keep at least the most recent image
 
 # Cloud Run Configuration
 cloud_run_location      = "us-west1"

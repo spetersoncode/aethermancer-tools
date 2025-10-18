@@ -23,10 +23,12 @@ resource "google_project_service" "required_apis" {
 module "artifact_registry" {
   source = "./modules/artifact-registry"
 
-  location      = var.artifact_registry_location
-  repository_id = "${var.app_name}-docker"
-  app_name      = var.app_name
-  labels        = local.labels
+  location               = var.artifact_registry_location
+  repository_id          = "${var.app_name}-docker"
+  app_name               = var.app_name
+  labels                 = local.labels
+  cleanup_retention_days = var.artifact_cleanup_retention_days
+  cleanup_keep_count     = var.artifact_cleanup_keep_count
 
   depends_on = [google_project_service.required_apis]
 }

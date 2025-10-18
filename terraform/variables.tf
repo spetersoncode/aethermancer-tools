@@ -28,6 +28,18 @@ variable "artifact_registry_location" {
   default     = "us-west1"
 }
 
+variable "artifact_cleanup_retention_days" {
+  description = "Number of days to retain Docker images before cleanup (older images will be deleted)"
+  type        = number
+  default     = 30
+}
+
+variable "artifact_cleanup_keep_count" {
+  description = "Minimum number of most recent Docker images to keep regardless of age"
+  type        = number
+  default     = 1
+}
+
 # Cloud Run Variables
 variable "cloud_run_location" {
   description = "Location for Cloud Run service"
