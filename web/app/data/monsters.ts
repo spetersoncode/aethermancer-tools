@@ -200,7 +200,7 @@ export const monsters: Monster[] = [
   {
     id: 'djinn',
     name: 'Djinn',
-    elements: ['Earth', 'Wind'],
+    elements: ['Fire', 'Wind'],
     types: ['Dodge', 'Force', 'Aether'],
     image: '/images/monsters/djinn.png',
   },
